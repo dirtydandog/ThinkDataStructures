@@ -1,16 +1,18 @@
 package com.allendowney.thinkdast;
 
 //import static org.junit.Assert.*;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
-import static org.hamcrest.CoreMatchers.*;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 /**
  * @author downey
@@ -224,6 +226,12 @@ public class MyArrayListTest {
 		assertThat(val, is(new Integer(2)));
 		assertThat(mylist.size(), is(2));
 		assertThat(mylist.get(1), is(new Integer(3)));
+	}
+	@Test
+	public void myTestRemoveInt() {
+		Integer val = mylist.remove(1);
+		assertThat(val, is(new Integer(3)));
+
 	}
 
 	/**
