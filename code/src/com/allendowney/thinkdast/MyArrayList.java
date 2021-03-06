@@ -196,7 +196,7 @@ public class MyArrayList<T> implements List<T> {
 	public T remove(int index) {
 		// TODO: FILL THIS IN!
 		T removedElement = get(index);
-		for (int i = index; i < size; i++) {
+		for (int i = index; i < size - 1; i++) {
 			array[i] = array[i + 1];
 		}
 		size -= 1;

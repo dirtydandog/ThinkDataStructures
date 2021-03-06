@@ -3,6 +3,7 @@
  */
 package com.allendowney.thinkdast;
 
+import javax.swing.*;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -83,6 +84,20 @@ public class MyLinkedList<E> implements List<E> {
 	@Override
 	public void add(int index, E element) {
 		//TODO: FILL THIS IN!
+		if (index == 0) {
+			head = new Node(element, head);
+		}
+		//Didn't realize that there was a get method
+
+		Node node = head;
+		for (int i = 0; i < index -1; i+=1) {
+			node = node.next;
+		}
+		Node next = node.next;
+		Node newNode = new Node(element, next);
+		node.next = newNode;
+		size += 1;
+
 	}
 
 	@Override
@@ -144,6 +159,15 @@ public class MyLinkedList<E> implements List<E> {
 	@Override
 	public int indexOf(Object target) {
 		//TODO: FILL THIS IN!
+		Node node = head;
+		int i = 0;
+		while (node != null) {
+			if (equals(target, node.data)) {
+				return i;
+			}
+			i += 1;
+			node = node.next;
+		}
 		return -1;
 	}
 
@@ -209,7 +233,17 @@ public class MyLinkedList<E> implements List<E> {
 	@Override
 	public E remove(int index) {
 		//TODO: FILL THIS IN!
-		return null;
+		if (index == 0) {
+			E element = head.data;
+			head = head.next;
+			size -= 1;
+			return element;
+		}
+		Node node = getNode(index - 1);
+		E element = getNode(index).data;
+		node.next = getNode(index + 1);
+		size -= 1;
+		return element;
 	}
 
 	@Override

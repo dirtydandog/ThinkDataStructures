@@ -227,12 +227,12 @@ public class MyArrayListTest {
 		assertThat(mylist.size(), is(2));
 		assertThat(mylist.get(1), is(new Integer(3)));
 	}
-	@Test
-	public void myTestRemoveInt() {
-		Integer val = mylist.remove(1);
-		assertThat(val, is(new Integer(3)));
-
-	}
+//	@Test
+//	public void myTestRemoveInt() {
+//		Integer val = mylist.remove(1);
+//		assertThat(val, is(new Integer(3)));
+//
+//	}
 
 	/**
 	 * Test method for {@link MyArrayList#removeAll(java.util.Collection)}.
