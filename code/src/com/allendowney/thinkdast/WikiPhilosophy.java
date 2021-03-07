@@ -4,7 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 public class WikiPhilosophy {
@@ -41,5 +46,23 @@ public class WikiPhilosophy {
      */
     public static void testConjecture(String destination, String source, int limit) throws IOException {
         // TODO: FILL THIS IN!
+        // download and parse the document
+        Connection conn = Jsoup.connect(source);
+        Document doc = conn.get();
+
+        // select the content text and pull out the paragraphs.
+        Element content = doc.getElementById("mw-content-text");
+
+        // TODO: avoid selecting paragraphs from sidebars and boxouts
+        Elements paras = content.select("p");
+        Element firstPara = paras.get(2);
+
+        Iterable<Node> iter = new WikiNodeIterable(firstPara);
+        for (Node node: iter) {
+            if (node instanceof TextNode) {
+                System.out.print(node);
+            }
+        }
+
     }
 }
