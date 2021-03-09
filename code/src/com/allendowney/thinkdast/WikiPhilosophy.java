@@ -31,8 +31,10 @@ public class WikiPhilosophy {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        String destination = "https://en.wikipedia.org/wiki/Philosophy";
+//        String destination = "https://en.wikipedia.org/wiki/Philosophy";
         String source = "https://en.wikipedia.org/wiki/Java_(programming_language)";
+        String destination = "https://en.wikipedia.org/wiki/General-purpose_language";
+
 
         testConjecture(destination, source, 10);
     }
@@ -47,22 +49,29 @@ public class WikiPhilosophy {
     public static void testConjecture(String destination, String source, int limit) throws IOException {
         // TODO: FILL THIS IN!
         // download and parse the document
-        Connection conn = Jsoup.connect(source);
-        Document doc = conn.get();
+//        while (!destination.equals(source))
+        for (int x = 0; x < 5; x += 1) {
+            Connection conn = Jsoup.connect(source);
+            Document doc = conn.get();
 
-        // select the content text and pull out the paragraphs.
-        Element content = doc.getElementById("mw-content-text");
+            // select the content text and pull out the paragraphs.
+            Element content = doc.getElementById("mw-content-text");
 
-        // TODO: avoid selecting paragraphs from sidebars and boxouts
-        Elements paras = content.select("p");
-        Element firstPara = paras.get(2);
+            // TODO: avoid selecting paragraphs from sidebars and boxouts
+            Elements paras = content.select("p");
+            Element firstPara = paras.get(1);
 
-        Iterable<Node> iter = new WikiNodeIterable(firstPara);
-        for (Node node: iter) {
-            if (node instanceof TextNode) {
-                System.out.print(node);
+            Iterable<Node> iter = new WikiNodeIterable(firstPara);
+            for (Node node: iter) {
+                if (node.hasAttr("href")) {
+                    String url = node.attr("abs:href");
+                    System.out.println(url);
+                    System.out.println(url.equals(destination));
+                }
             }
         }
 
+
     }
+
 }
