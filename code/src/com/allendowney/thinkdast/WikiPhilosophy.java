@@ -16,6 +16,8 @@ public class WikiPhilosophy {
 
     final static List<String> visited = new ArrayList<String>();
     final static WikiFetcher wf = new WikiFetcher();
+    String url;
+
 
     /**
      * Tests a conjecture about Wikipedia and Philosophy.
@@ -50,28 +52,38 @@ public class WikiPhilosophy {
         // TODO: FILL THIS IN!
         // download and parse the document
 //        while (!destination.equals(source))
-        for (int x = 0; x < 5; x += 1) {
-            Connection conn = Jsoup.connect(source);
-            Document doc = conn.get();
+        String url = source;
 
-            // select the content text and pull out the paragraphs.
-            Element content = doc.getElementById("mw-content-text");
-
-            // TODO: avoid selecting paragraphs from sidebars and boxouts
-            Elements paras = content.select("p");
-            Element firstPara = paras.get(1);
-
-            Iterable<Node> iter = new WikiNodeIterable(firstPara);
-            for (Node node: iter) {
-                if (node.hasAttr("href")) {
-                    String url = node.attr("abs:href");
-                    System.out.println(url);
-                    System.out.println(url.equals(destination));
-                }
-            }
+        if (limit == 0) {
+            return;
         }
 
+        Connection conn = Jsoup.connect(source);
+        Document doc = conn.get();
 
+        // select the content text and pull out the paragraphs.
+        Element content = doc.getElementById("mw-content-text");
+
+        // TODO: avoid selecting paragraphs from sidebars and boxouts
+        Elements paras = content.select("p");
+        Element firstPara = paras.get(1);
+
+        Iterable<Node> iter = new WikiNodeIterable(firstPara);
+        for (Node node: iter) {
+            if (node.hasAttr("href")) {
+                url = node.attr("abs:href");
+                System.out.println(url);
+                visited.add(url);
+                if (url.equals(destination)) {
+                    System.out.println("Success");
+                    System.out.println(visited);
+                    return;
+                }
+                System.out.println(limit);
+                testConjecture(destination, url, limit - 1);
+            }
+            testConjecture(destination, url, limit - 1);
+
+        }
     }
-
 }
