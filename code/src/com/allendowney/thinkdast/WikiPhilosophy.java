@@ -21,13 +21,13 @@ public class WikiPhilosophy {
 
     /**
      * Tests a conjecture about Wikipedia and Philosophy.
-     *
+     * <p>
      * https://en.wikipedia.org/wiki/Wikipedia:Getting_to_Philosophy
-     *
+     * <p>
      * 1. Clicking on the first non-parenthesized, non-italicized link
      * 2. Ignoring external links, links to the current page, or red links
      * 3. Stopping when reaching "Philosophy", a page with no links or a page
-     *    that does not exist, or when a loop occurs
+     * that does not exist, or when a loop occurs
      *
      * @param args
      * @throws IOException
@@ -35,8 +35,7 @@ public class WikiPhilosophy {
     public static void main(String[] args) throws IOException {
 //        String destination = "https://en.wikipedia.org/wiki/Philosophy";
         String source = "https://en.wikipedia.org/wiki/Java_(programming_language)";
-        String destination = "https://en.wikipedia.org/wiki/General-purpose_language";
-
+        String destination = "https://en.wikipedia.org/wiki/Formal_language";
 
         testConjecture(destination, source, 10);
     }
@@ -50,40 +49,19 @@ public class WikiPhilosophy {
      */
     public static void testConjecture(String destination, String source, int limit) throws IOException {
         // TODO: FILL THIS IN!
-        // download and parse the document
-//        while (!destination.equals(source))
-        String url = source;
+        String start = source;
+        for (int i = 0; i < limit; i += 1) {
+            // wikifetcher wf parses source into Elements
+            Elements paragraphs = wf.fetchWikipedia(start);
 
-        if (limit == 0) {
-            return;
-        }
+            // Parse the paragraphs with WikiParser
+            WikiParser wp = new WikiParser(paragraphs);
 
-        Connection conn = Jsoup.connect(source);
-        Document doc = conn.get();
-
-        // select the content text and pull out the paragraphs.
-        Element content = doc.getElementById("mw-content-text");
-
-        // TODO: avoid selecting paragraphs from sidebars and boxouts
-        Elements paras = content.select("p");
-        Element firstPara = paras.get(1);
-
-        Iterable<Node> iter = new WikiNodeIterable(firstPara);
-        for (Node node: iter) {
-            if (node.hasAttr("href")) {
-                url = node.attr("abs:href");
-                System.out.println(url);
-                visited.add(url);
-                if (url.equals(destination)) {
-                    System.out.println("Success");
-                    System.out.println(visited);
-                    return;
-                }
-                System.out.println(limit);
-                testConjecture(destination, url, limit - 1);
-            }
-            testConjecture(destination, url, limit - 1);
-
+            Element firstLink = wp.findFirstLink();
+            String url = firstLink.attr("abs:href");
+            visited.add(url);
+            System.out.println(firstLink.text());
+            start = url;
         }
     }
 }
