@@ -21,5 +21,9 @@ public class MyHashMapTest extends MyLinearMapTest {
 		map.put("Two", 2);
 		map.put("Three", 3);
 		map.put(null, 0);
+
+//		map.put("Eleven", 11);
+//		map.put("Twelve", 12);
+
 	}
 }
