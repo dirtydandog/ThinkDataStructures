@@ -152,6 +152,12 @@ public class MyBetterMap<K, V> implements Map<K, V> {
 		Map<String, Integer> map = new MyBetterMap<String, Integer>();
 		map.put("Word1", 1);
 		map.put("Word2", 2);
+
+		// my added code begin
+		map.put("word3", 3);
+		map.put("word4", 4);
+		map.put("word5", 5);
+
 		Integer value = map.get("Word1");
 		System.out.println(value);
 

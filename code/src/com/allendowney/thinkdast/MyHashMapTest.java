@@ -15,7 +15,9 @@ public class MyHashMapTest extends MyLinearMapTest {
 	 * @throws java.lang.Exception
 	 */
 	@Before
-	public void setUp() throws Exception {
+//	public void setUp() throws Exception {
+
+		public void setUp() throws Exception {
 		map = new MyHashMap<String, Integer>();
 		map.put("One", 1);
 		map.put("Two", 2);
